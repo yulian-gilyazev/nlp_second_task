@@ -1,0 +1,6 @@
+pandas==1.5.1
+numpy==1.23.5
+tqdm==4.64.1
+dacite==1.8.0
+torch==1.13.0+cu116
+transformers=4.27.0
