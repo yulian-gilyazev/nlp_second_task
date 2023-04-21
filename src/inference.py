@@ -20,7 +20,7 @@ class Inferencer:
         self.train_predictions_buffer = defaultdict(list)
         for text, label in zip(texts_train, labels_train):
             self.train_predictions_buffer[text].append(label)
-        self.model = model
+        self.model = model.to(device)
         self.tokenizer = tokenizer
         self.device = device
 
@@ -52,8 +52,8 @@ class Inferencer:
 
 
 def predict(config):
-    model_config = AutoConfig.from_pretrained(config.model_path)
-    model = AutoModelForSequenceClassification.from_pretrained(model_config)
+    # model_config = AutoConfig.from_pretrained(config.model_path)
+    model = AutoModelForSequenceClassification.from_pretrained(config.model_path)
     tokenizer = AutoTokenizer.from_pretrained(config.hf_model_path)
 
     test_df = pd.read_csv(config.test_data_path)
@@ -63,7 +63,7 @@ def predict(config):
     predictions = infer.predict(test_df)
 
     test_df['target'] = predictions
-    test_df = test_df[['target', 'id']]
+    test_df = test_df[['target', 'id']].set_index('id')
     test_df.to_csv(config.prediction_path)
 
 
@@ -91,6 +91,7 @@ def main():
     config = load_config(args.config)
     config.test_data_path = args.test_data
     config.model_path = args.model_path
+    config.prediction_path = args.prediction_path
     if hasattr(args, 'test_data'):
         config.train_data_path = args.train_data
     predict(config)
