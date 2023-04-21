@@ -1,15 +1,16 @@
 {
   "learning_rate": 2e-5,
-  "per_device_train_batch_size": 1,
-  "per_device_eval_batch_size": 1,
-  "gradient_accumulation_steps": 8,
-  "num_train_epochs": 3,
+  "per_device_train_batch_size": 32,
+  "per_device_eval_batch_size": 32,
+  "gradient_accumulation_steps": 1,
+  "num_train_epochs": 4,
   "evaluation_strategy": "steps",
-  "eval_steps": 15,
+  "eval_steps": 30,
   "save_strategy": "epoch",
   "num_labels": 6,
-  "train_classes_frequency": [0.1143, 0.1361, 0.1416,0.1974, 0.2111, 0.1995],
-  "training_train_dataset_size": 1,
+  "train_classes_frequency": [0.1143, 0.1361, 0.1416, 0.1974, 0.2111, 0.1995],
+  "training_train_dataset_size": 0.98,
   "hf_model_path": "distilroberta-base",
-  "device": "cpu"
+  "device": "cuda"
 }
+
