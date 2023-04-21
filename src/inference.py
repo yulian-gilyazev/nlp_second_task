@@ -52,7 +52,7 @@ class Inferencer:
 
 
 def predict(config):
-    # model_config = AutoConfig.from_pretrained(config.model_path)
+    '''Инференс и сохранение предсказаний обученной Sequence Classification модели из HF'''
     model = AutoModelForSequenceClassification.from_pretrained(config.model_path)
     tokenizer = AutoTokenizer.from_pretrained(config.hf_model_path)
 
@@ -74,7 +74,7 @@ def parse_args(args=None):
     )
     parser.add_argument('-test-data', '--test-data', type=str,
                         help='Path to test data.')
-    parser.add_argument('-train-data', '--train-data', type=str, required=False,
+    parser.add_argument('-train-data', '--train-data', type=str,
                         help='Path to train data.')
     parser.add_argument('-config', '--config', type=str,
                         help='Path to training config.')
@@ -92,8 +92,7 @@ def main():
     config.test_data_path = args.test_data
     config.model_path = args.model_path
     config.prediction_path = args.prediction_path
-    if hasattr(args, 'test_data'):
-        config.train_data_path = args.train_data
+    config.train_data_path = args.train_data
     predict(config)
 
 

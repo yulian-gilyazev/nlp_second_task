@@ -9,6 +9,7 @@ from util import WeightedClassesTrainer, compute_accuracy, \
 
 
 def train(config):
+    """Обучение модели Sequence Classification модели из HF."""
     model = AutoModelForSequenceClassification.from_pretrained(config.hf_model_path,
                                                                num_labels=config.num_labels)
     tokenizer = AutoTokenizer.from_pretrained(config.hf_model_path)
@@ -45,7 +46,7 @@ def parse_args(args=None):
         add_help=True,
         description="HF sequence classification model training."
     )
-    parser.add_argument('-train-data', '--train-data', type=str, required=False,
+    parser.add_argument('-train-data', '--train-data', type=str,
                         help='Path to train data.')
     parser.add_argument('-config', '--config', type=str,
                         help='Path to training config.')
@@ -59,8 +60,7 @@ def main():
     args = parse_args()
     config = load_config(args.config)
     config.model_path = args.model_path
-    if hasattr(args, 'train_data'):
-        config.train_data_path = args.train_data
+    config.train_data_path = args.train_data
     train(config)
 
 

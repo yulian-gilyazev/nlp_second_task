@@ -12,12 +12,14 @@ from config import Config
 
 
 def load_config(config_path):
+    """Загрузка конфига."""
     with open(config_path, 'r') as file:
         config_data = json.load(file)
     return from_dict(Config, config_data)
 
 
 def convert_fields_to_text(movie_name, movie_description):
+    """Метод соединяет название фильма и его описание в единую строку."""
     return f"Film name: {movie_name}. {movie_description}"
 
 
@@ -80,6 +82,7 @@ def load_train_val_datasets(path_to_data, transforms, train_size=1.):
 
 
 def compute_accuracy(eval_pred):
+    """Вычисление accuracy для валидации в Trainer."""
     accuracy = evaluate.load("accuracy")
     predictions, labels = eval_pred
     predictions = np.argmax(predictions, axis=1)
