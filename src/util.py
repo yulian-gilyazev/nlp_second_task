@@ -24,6 +24,8 @@ def convert_fields_to_text(movie_name, movie_description):
 
 
 class FilmsDataset(Dataset):
+    """Датасет жанров фильмов."""
+
     def __init__(self, df, transforms, train=True,
                  shuffle=True, text_converter=convert_fields_to_text):
         super().__init__()
