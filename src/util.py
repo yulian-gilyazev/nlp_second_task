@@ -51,6 +51,7 @@ class FilmsDataset(Dataset):
 
 class WeightedClassesTrainer(Trainer):
     """Кастомный Trainer с весами классов."""
+
     def __init__(self, *args, **kwargs):
         sm = torch.nn.Softmax()
         self.device = kwargs['device']

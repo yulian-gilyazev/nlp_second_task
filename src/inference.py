@@ -3,8 +3,7 @@ from collections import defaultdict
 
 import numpy as np
 import pandas as pd
-from transformers import AutoConfig, AutoModelForSequenceClassification, \
-    AutoTokenizer
+from transformers import AutoModelForSequenceClassification, AutoTokenizer
 import torch
 
 from util import convert_fields_to_text, load_config
@@ -13,6 +12,7 @@ from tqdm import tqdm
 
 class Inferencer:
     """Класс инферит обученную модель."""
+
     def __init__(self, train_df, tokenizer, model, device='cpu'):
         texts_train = [convert_fields_to_text(item['movie_name'], item['movie_description'])
                        for _, item in train_df.iterrows()]
@@ -25,7 +25,7 @@ class Inferencer:
         self.device = device
 
     def predict(self, test_df):
-        """Метод предсказывает метки для тестовой выборки. Для предсказвания
+        """Метод предсказывает метки для тестовой выборки. Для предсказывания
         исползьзуются некоторые наблюдения о тестовой и тренировочной выборках, а именно то,
         что они имеют порядка 25% пересечений, и поэтому если наблюдения уже встречается в
         трейне,то предсказание для него будет отличным от той метки, которая уже известна.
@@ -34,7 +34,7 @@ class Inferencer:
         for _, row in tqdm(test_df.iterrows()):
             text = convert_fields_to_text(row['movie_name'], row['movie_description'])
             res = self.model(**{key: torch.tensor(value).to(self.device)
-                                for key, value in self.tokenizer([text,]).items()})
+                                for key, value in self.tokenizer([text]).items()})
             logits = res['logits'].detach().cpu().numpy()[0]
             labels = np.argsort(logits)[::-1]
             if text not in self.train_predictions_buffer.keys():
